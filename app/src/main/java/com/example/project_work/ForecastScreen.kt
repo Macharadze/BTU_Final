@@ -1,6 +1,5 @@
 package com.example.project_work
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,12 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.project_work.data.Forecast
+import com.example.project_work.images.WeatherIcon
 
 @Composable
 fun ForecastScreen(navController: NavHostController, viewModel: WeatherModel) {
@@ -80,14 +79,12 @@ fun ForecastCard(day: Forecast,  viewModel: WeatherModel, onClick: () -> Unit) {
                 modifier = Modifier
                     .padding(20.dp)
             )
-            day.iconId?.let { painterResource(id = it) }?.let {
-                Image(
-                    painter = it,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(50.dp, 50.dp)
-                )
-            }
+            // Using Coil for efficient image loading
+            WeatherIcon(
+                iconId = day.iconId,
+                modifier = Modifier.size(50.dp, 50.dp),
+                contentDescription = "Weather icon for ${day.date}"
+            )
         }
 
         Spacer(modifier = Modifier.height(12.dp))

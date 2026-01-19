@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,9 +18,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.project_work.images.WeatherIcon
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -63,15 +62,14 @@ fun WeatherScreen(viewModel: WeatherModel) {
             if(errorText != null) {
                 Text(errorText, modifier = Modifier.padding(16.dp))
             } else {
-                icon?.let { painterResource(id = it) }?.let {
-                    Image(
-                        painter = it,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .padding(bottom = 30.dp)
-                            .size(200.dp, 200.dp)
-                    )
-                }
+                // Using Coil for efficient image loading
+                WeatherIcon(
+                    iconId = icon,
+                    modifier = Modifier
+                        .padding(bottom = 30.dp)
+                        .size(200.dp, 200.dp),
+                    contentDescription = "Current weather icon"
+                )
                 weather?.let { weather ->
                     Text(
                         city,
