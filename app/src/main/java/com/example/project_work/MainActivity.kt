@@ -1,54 +1,25 @@
 package com.example.project_work
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.project_work.menu.BottomNavBar
-import com.example.project_work.menu.Screen
-import com.example.project_work.ui.theme.ProjectworkTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.example.project_work.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
-    @SuppressLint("ViewModelConstructorInComposable")
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            ProjectworkTheme(dynamicColor = false) {
-                val navController = rememberNavController()
 
-                // Keep a single WeatherModel instance for the whole navigation graph
-                val weatherModel: WeatherModel = viewModel()
-                Scaffold(
-                    bottomBar = { BottomNavBar(navController) }
-                ) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = Screen.Home.route,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable(Screen.Home.route) {
-                            WeatherScreen(viewModel = weatherModel)
-                        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-                        composable(Screen.Forecast.route) {
-                            ForecastScreen(navController = navController, viewModel = weatherModel)
-                        }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
 
-                        composable("details/{date}") { backStackEntry ->
-                            val dateArg = backStackEntry.arguments?.getString("date").orEmpty()
-                            DetailScreen(date = dateArg, viewModel = weatherModel)
-                        }
-                    }
-                }
-            }
-        }
+        NavigationUI.setupWithNavController(binding.bottomNav, navController)
     }
-
 }

@@ -1,5 +1,6 @@
 package com.example.project_work.data
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,9 +9,13 @@ data class City(
     val longitude: Double
 )
 
+/**
+ * Open-Meteo geocoding response.
+ * `results` can be missing/null when the city isn't found.
+ */
 @Serializable
 data class Result(
-    val results: List<City>
+    val results: List<City>? = null
 )
 
 // Data classes for defining wanted weather data

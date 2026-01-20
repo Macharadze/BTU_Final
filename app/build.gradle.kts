@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    // Compose plugin removed (XML + fragments)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -39,39 +39,44 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        compose = true
+        // Compose disabled; using XML + ViewBinding
+        compose = false
+        viewBinding = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.firebase.crashlytics.buildtools)
-    implementation(libs.androidx.navigation.runtime.android)
-    implementation(libs.androidx.navigation.compose.android)
+
+    // Material Views (XML)
     implementation(libs.material)
-    implementation(libs.coil.compose)
+
+    // Layout libs used in XML
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation("androidx.cardview:cardview:1.0.0")
+
+    // Fragments + Navigation Component (XML)
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
+
+    // RecyclerView for lists
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+
+    // LiveData + ViewModel for fragments
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    implementation("androidx.compose.ui:ui:1.6.1")
-    implementation("androidx.compose.material3:material3:1.2.1")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
 
-// ktor
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+
+    // ktor
     implementation("io.ktor:ktor-client-core:3.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
     implementation("io.ktor:ktor-client-content-negotiation:3.1.1")
